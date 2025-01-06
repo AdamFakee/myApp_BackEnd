@@ -13,6 +13,6 @@ const sizeSchema = sequelize.define('size', {
     timestamps: false,
 })
 
-
+sizeModel.removeAttribute('id');
 
 module.exports.sizeModel = sizeSchema;

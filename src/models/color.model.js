@@ -13,6 +13,7 @@ const colorSchema = sequelize.define('color', {
   timestamps: false,
 })
 
+colorSchema.removeAttribute('id');
 
 
 module.exports.colorModel = colorSchema;

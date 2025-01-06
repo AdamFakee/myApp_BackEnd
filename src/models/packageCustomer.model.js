@@ -1,7 +1,7 @@
 const {sequelize} = require('../configs/database.config')
 const {DataTypes } = require('sequelize');
 
-const productColorSchema = sequelize.define('package_customer', {
+const packageCustomerSchema = sequelize.define('package_customer', {
     packageId : {
         type : DataTypes.INTEGER,
         allowNull : false,
@@ -23,6 +23,6 @@ const productColorSchema = sequelize.define('package_customer', {
     timestamps: false,
 })
 
+packageCustomerSchema.removeAttribute('id');
 
-
-module.exports.productColorModel = productColorSchema;
+module.exports.packageCustomerModel = packageCustomerSchema;

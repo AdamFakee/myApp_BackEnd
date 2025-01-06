@@ -1,7 +1,7 @@
 const {sequelize} = require('../configs/database.config')
 const {DataTypes } = require('sequelize');
 
-const productColorSchema = sequelize.define('product_color', {
+const productSizeSchema = sequelize.define('product_size', {
     productId : {
         type : DataTypes.INTEGER,
         allowNull : false,
@@ -20,10 +20,10 @@ const productColorSchema = sequelize.define('product_color', {
         }
     }
 },  { 
-    tableName : 'product_color',
+    tableName : 'product_size',
     timestamps: false,
 })
 
+productSizeSchema.removeAttribute('id');
 
-
-module.exports.productColorModel = productColorSchema;
+module.exports.productSizeModel = productSizeSchema;

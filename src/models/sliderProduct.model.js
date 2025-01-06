@@ -19,6 +19,6 @@ const sliderProductSchema = sequelize.define('slider_product', {
     timestamps: false,
 })
 
-
+sliderProductSchema.removeAttribute('id');
 
 module.exports.sliderProductModel = sliderProductSchema;

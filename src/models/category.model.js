@@ -2,7 +2,7 @@ const {sequelize} = require('../configs/database.config')
 const {DataTypes } = require('sequelize');
 
 const categorySchema = sequelize.define('category', {
-  productName : {
+  categoryName : {
     type : DataTypes.STRING(255),
     allowNull : false,
     primaryKey : true
@@ -12,6 +12,6 @@ const categorySchema = sequelize.define('category', {
   timestamps: false,
 })
 
-
+categorySchema.removeAttribute('id');
 
 module.exports.categoryModel = categorySchema;

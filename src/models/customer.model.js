@@ -24,6 +24,6 @@ const customerSchema = sequelize.define('customer', {
   timestamps: false,
 })
 
-
+customerSchema.removeAttribute('id');
 
 module.exports.customerModel = customerSchema;

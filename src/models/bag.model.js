@@ -1,13 +1,13 @@
 const {sequelize} = require('../configs/database.config')
 const {DataTypes } = require('sequelize');
 
-const packageProductSchema = sequelize.define('package_customer', {
-    packageId : {
-        type : DataTypes.INTEGER,
+const bagSchema = sequelize.define('bag', {
+    accountName : {
+        type : DataTypes.STRING(255),
         allowNull : false,
         references : {
-            model : 'package',
-            key : 'packageId'
+            model : 'customer',
+            key : 'accountName'
         }
     },
     productId : {
@@ -17,12 +17,12 @@ const packageProductSchema = sequelize.define('package_customer', {
             model : 'product',
             key : 'productId'
         }
-    },
+    }
 },  { 
-    tableName : 'package_customer',
+    tableName : 'bag',
     timestamps: false,
 })
 
-packageProductSchema.removeAttribute('id');
+bagSchema.removeAttribute('id');
 
-module.exports.packagePrdocutModel = packageProductSchema;
+module.exports.bagModel = bagSchema;

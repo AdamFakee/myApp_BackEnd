@@ -36,6 +36,6 @@ const ratingSchema = sequelize.define('rating', {
   timestamps: false,
 })
 
-
+ratingSchema.removeAttribute('id');
 
 module.exports.ratingModel = ratingSchema;

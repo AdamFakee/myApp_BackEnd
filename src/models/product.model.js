@@ -42,6 +42,6 @@ const productSchema = sequelize.define('product', {
   timestamps: false,
 })
 
-
+productSchema.removeAttribute('id');
 
 module.exports.productModel = productSchema;

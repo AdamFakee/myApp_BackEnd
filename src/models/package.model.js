@@ -10,7 +10,7 @@ const packageSchema = sequelize.define('package', {
         type : DataTypes.INTEGER, 
         allowNull : false,
     },
-    quantity : {
+    totalPrice : {
         type : DataTypes.FLOAT, 
         allowNull : false,
     },
@@ -30,6 +30,6 @@ const packageSchema = sequelize.define('package', {
     timestamps: false,
 })
 
-
+packageSchema.removeAttribute('id');
 
 module.exports.packageModel = packageSchema;

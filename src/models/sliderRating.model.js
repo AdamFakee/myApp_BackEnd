@@ -19,6 +19,6 @@ const sliderRatingSchema = sequelize.define('slider_rating', {
     timestamps: false,
 })
 
-
+sliderRatingSchema.removeAttribute('id');
 
 module.exports.sliderRatingModel = sliderRatingSchema;

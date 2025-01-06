@@ -1,3 +1,5 @@
+const { packageModel } = require("../models/package.model");
+const { bagRoute } = require("./bag.route");
 const { categoryRoute } = require("./category.route");
 const { customerRoute } = require("./customer.route");
 const { orderRoute } = require("./order.route");
@@ -8,4 +10,5 @@ module.exports.indexRoute = (app) => {
     app.use('/customer', customerRoute);
     app.use('/order', orderRoute);
     app.use('/category', categoryRoute)
+    app.use('/bag', bagRoute);
 }

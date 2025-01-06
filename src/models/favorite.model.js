@@ -23,6 +23,6 @@ const favoriteSchema = sequelize.define('favorite', {
   timestamps: false,
 })
 
-
+favoriteSchema.removeAttribute('id');
 
 module.exports.favoriteModel = favoriteSchema;

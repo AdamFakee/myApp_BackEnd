@@ -12,6 +12,6 @@ const shopSchema = sequelize.define('shop', {
     timestamps: false,
 })
 
-
+shopSchema.removeAttribute('id');
 
 module.exports.shopModel = shopSchema;
