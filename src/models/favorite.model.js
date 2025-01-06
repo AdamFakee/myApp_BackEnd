@@ -1,19 +1,28 @@
-const mongoose = require('mongoose');
-const Favorite = new mongoose.Schema({
-  productId : {
-    type : String,
-    require : true,
-  },
-  userId : {
-    type : String,
-    require : true,
-  },
-  status : {
-    type : Boolean,
-    default : true
-  }
-}, {
-  timestamps : true,
-});
+const {sequelize} = require('../configs/database.config')
+const {DataTypes } = require('sequelize');
 
-module.exports.favoriteModel = mongoose.model('Favorites', Favorite, 'Favorites');
+const favoriteSchema = sequelize.define('favorite', {
+  productId : {
+    type : DataTypes.INTEGER,
+    allowNull : false,
+    references : {
+      model : 'product',
+      key : 'productId'
+    }
+  },
+  accountName : {
+    type : DataTypes.STRING(255),
+    allowNull : false,
+    references : {
+      model : 'customer',
+      key : 'accountName'
+    }
+  },
+},  { 
+  tableName : 'favorite',
+  timestamps: false,
+})
+
+
+
+module.exports.favoriteModel = favoriteSchema;

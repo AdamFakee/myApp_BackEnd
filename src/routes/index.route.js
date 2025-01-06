@@ -1,9 +1,11 @@
+const { categoryRoute } = require("./category.route");
+const { customerRoute } = require("./customer.route");
 const { orderRoute } = require("./order.route");
 const { productRoute } = require("./product.route");
-const { userRoute } = require("./user.route");
 
 module.exports.indexRoute = (app) => {
     app.use('/product', productRoute);
-    app.use('/user', userRoute);
+    app.use('/customer', customerRoute);
     app.use('/order', orderRoute);
+    app.use('/category', categoryRoute)
 }

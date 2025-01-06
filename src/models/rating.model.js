@@ -1,32 +1,41 @@
-const mongoose = require('mongoose');
-const Rating = new mongoose.Schema({
-  productId : {
-    type : String,
-    require : true,
-  },
-  userId : {
-    type : String,
-    require : true,
-  },
-  userName : {
-    type : String,
-    require : true,
-  },
-  avatarUser : {
-    type : String,
-    require : true,
-  },
-  desc : String,
-  star : {
-    type : Number,
-    default : 5
-  },
-  imageSlider : {
-    type : [String],
-    default : []
-  }
-}, {
-  timestamps : true,
-});
+const {sequelize} = require('../configs/database.config')
+const {DataTypes } = require('sequelize');
 
-module.exports.ratingModel = mongoose.model('Ratings', Product, 'Ratings');
+const ratingSchema = sequelize.define('rating', {
+  ratingId : {
+    type : DataTypes.INTEGER,
+    autoIncrement : true,
+    allowNull : false,
+    primaryKey : true,
+  },
+  productId : {
+    type : DataTypes.INTEGER,
+    allowNull : false,
+    references : {
+        model : 'product',
+        key : 'productId'
+    }
+  },
+  accountName : {
+    type : DataTypes.STRING(255),
+    allowNull : false,
+    references : {
+      model : 'customer',
+      key : 'accountName'
+    }
+  },
+  detail : {
+    type : DataTypes.TEXT
+  },
+  star : {
+    type : DataTypes.INTEGER,
+    default : 5
+  }
+},  { 
+  tableName : 'rating',
+  timestamps: false,
+})
+
+
+
+module.exports.ratingModel = ratingSchema;

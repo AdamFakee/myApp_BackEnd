@@ -1,12 +1,21 @@
 
-const mongoose = require('mongoose');
+const Sequelize  = require('sequelize');
+require('dotenv').config();
+ 
+const sequelize = new Sequelize(
+    process.env.DATABASE_NAME, // tên database
+    process.env.DATABASE_USER_NAME, // username
+    process.env.DATABASE_PASSWORD, // password
+    {
+      host: process.env.DATABASE_HOST,
+      dialect: 'mysql'
+    }
+);
 
-module.exports.databaseConnect = async () => {
-try {
-    await mongoose.connect(process.env.MONGO_URL);
-    console.log("Kết nối database thành công!");
-} catch (error) {
-    console.log(error);
-    // console.log("Kết nối database thất bại!");
-}
-}
+sequelize.authenticate().then(() => {
+    console.log('Kết nối db thành công!');
+}).catch((error) => {
+    console.error('Kết nối db thất bại: ', error);
+});
+
+module.exports.sequelize = sequelize;
