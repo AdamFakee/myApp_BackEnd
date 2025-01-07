@@ -1,4 +1,3 @@
-const { packageModel } = require("../models/package.model");
 const { bagRoute } = require("./bag.route");
 const { categoryRoute } = require("./category.route");
 const { customerRoute } = require("./customer.route");

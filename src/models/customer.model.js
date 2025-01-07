@@ -18,6 +18,10 @@ const customerSchema = sequelize.define('customer', {
   avatar : {
     type : DataTypes.STRING(255),
     default : null
+  },
+  salt : {
+    type : DataTypes.STRING(500),
+    allowNull : false
   }
 },  { 
   tableName : 'customer',

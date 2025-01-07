@@ -14,9 +14,25 @@ const code404 = (res, data={}, message="not found") => {
     });
 }
 
+const code401 = (res, data={}, message = 'No token provided') => {
+    return res.status(401).json({
+        code: 401,
+        message : message,
+        data
+    });
+}
+
 const code400 = (res, data={}, message="bad request") => {
     return res.status(400).json({
         code: 400,
+        message : message,
+        data
+    });
+}
+
+const code403 = (res, data={}, message="invalid signature") => {
+    return res.status(403).json({
+        code: 403,
         message : message,
         data
     });
@@ -31,5 +47,5 @@ const code500 = (res, data={}, message="Internal Server Error") => {
 }
 
 module.exports.messageHelper = {
-    code200, code404, code400, code500
+    code200, code404, code400, code500, code401, code403
 }
