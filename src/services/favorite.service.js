@@ -10,7 +10,7 @@ const addItemToBag = async (data) => {
 const getAll = async (accountName) => {
     const query = `
         select distinct 
-            product.productId, product.productName, product.discount, product.categoryname, product.price, product.imageMain, product.shopName, favorite.sizeName
+            product.productId, product.productName, product.discount, product.categoryname, product.price, product.imageMain, product.shopName, favorite.sizeName, product.amount
         from 
             product
         join favorite on favorite.productId = product.productId

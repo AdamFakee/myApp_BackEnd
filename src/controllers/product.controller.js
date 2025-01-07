@@ -1,3 +1,4 @@
+const { filterHelper } = require("../helpers/filter.helper");
 const { messageHelper } = require("../helpers/message.helper");
 const { productService } = require("../services/product.service")
 // [GET] /product    -  /home [FE]
@@ -20,11 +21,16 @@ const detail = async (req, res) => {
         const {productId} = req.body;
         if(productId){
             const item = await productService.getOneProduct(productId);
+            // check item empty
+            if(item.length==0) {
+                return messageHelper.code404(res);
+            }
+            const itemMergedImage = filterHelper.mergeImageDetailItem(item);
             const additionalProducts = await productService.getRandonProducts();
             const data = {
-                item, additionalProducts
+                item : itemMergedImage, additionalProducts
             }
-            return item.length ? messageHelper.code200(res, data) : messageHelper.code404(res);
+            return messageHelper.code200(res, data);
         } else {
             return messageHelper.code404(res);
         }

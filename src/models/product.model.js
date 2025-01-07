@@ -36,6 +36,10 @@ const productSchema = sequelize.define('product', {
   shopName : {
     type : DataTypes.STRING(255),
     allowNull : false,
+  },
+  amount : {
+    type : DataTypes.INTEGER,
+    allowNull : false
   }
 },  { 
   tableName : 'product',

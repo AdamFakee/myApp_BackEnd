@@ -12,7 +12,7 @@ const getDiscountProduct = async () => {
     const limit = 10;
     const query = `
         select 
-            product.productId, product.productName, product.discount, product.shopName, product.price, product.imageMain, count(ratingId) as starCount, IFNULL(AVG(rating.star), 0) AS starAverage 
+            product.productId, product.productName, product.discount, product.shopName, product.price, product.imageMain, product.amount, count(ratingId) as starCount, IFNULL(AVG(rating.star), 0) AS starAverage 
         from 
             product
         left join 
@@ -30,7 +30,7 @@ const getNewProduct = async () => {
     const limit = 10;
     const query = `
         select 
-            product.productId, product.productName, product.discount, product.shopName, product.price, product.imageMain, count(ratingId) as starCount, IFNULL(AVG(rating.star), 0) AS starAverage 
+            product.productId, product.productName, product.discount, product.shopName, product.price, product.imageMain, product.amount, count(ratingId) as starCount, IFNULL(AVG(rating.star), 0) AS starAverage 
         from 
             product
         left join 
@@ -46,7 +46,7 @@ const getNewProduct = async () => {
 const getOneProduct = async (productId) => {
     const query = `
         SELECT 
-            product.productId, product.productName, product.discount, product.shopName, product.price, product.imageMain, slider_product.image, COUNT(rating.ratingId) AS starCount,IFNULL(AVG(rating.star), 0) AS starAverage
+            product.productId, product.productName, product.discount, product.shopName, product.price, product.imageMain, product.amount, slider_product.image, COUNT(rating.ratingId) AS starCount,IFNULL(AVG(rating.star), 0) AS starAverage
         FROM 
             product
         LEFT JOIN 
