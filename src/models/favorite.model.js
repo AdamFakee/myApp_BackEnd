@@ -18,6 +18,15 @@ const favoriteSchema = sequelize.define('favorite', {
       key : 'accountName'
     }
   },
+  sizeName : {
+    type: DataTypes.ENUM,
+    values: ['s', 'm', 'l', 'xl', 'xxl'],
+    allowNull : false,
+    references : {
+      model : 'size',
+      key : 'sizeName'
+    }
+  }
 },  { 
   tableName : 'favorite',
   timestamps: false,
