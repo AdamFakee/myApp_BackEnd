@@ -17,6 +17,15 @@ const bagSchema = sequelize.define('bag', {
             model : 'product',
             key : 'productId'
         }
+    },
+    sizeName : {
+        type: DataTypes.ENUM,
+        values: ['s', 'm', 'l', 'xl', 'xxl'],
+        allowNull : false,
+        references : {
+            model : 'size',
+            key : 'sizeName'
+        }
     }
 },  { 
     tableName : 'bag',

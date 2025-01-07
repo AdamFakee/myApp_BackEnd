@@ -46,6 +46,13 @@ const code500 = (res, data={}, message="Internal Server Error") => {
     });
 }
 
+const code204 = (res, message='no content') => {
+    return res.status(200).json({
+        code : 204,
+        message : message
+    })
+}
+
 module.exports.messageHelper = {
-    code200, code404, code400, code500, code401, code403
+    code200, code404, code400, code500, code401, code403, code204
 }

@@ -15,7 +15,6 @@ const decodeHeader = (req, res, next) => {
     const decoded = jwtService.verifyJWT(token);
     if (!decoded) return messageHelper.code401(res);
     // attach the decoded token to the res.user object
-    console.log(decoded)
     if (decoded) res.customer = decoded
     res.token = token
     next()

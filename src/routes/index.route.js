@@ -1,3 +1,4 @@
+const { decodeHeaderMiddleware } = require("../middlewares/decodedHeader.middleware");
 const { bagRoute } = require("./bag.route");
 const { categoryRoute } = require("./category.route");
 const { customerRoute } = require("./customer.route");
@@ -9,5 +10,5 @@ module.exports.indexRoute = (app) => {
     app.use('/customer', customerRoute);
     app.use('/order', orderRoute);
     app.use('/category', categoryRoute)
-    app.use('/bag', bagRoute);
+    app.use('/bag', decodeHeaderMiddleware.decodeHeader, bagRoute);
 }
