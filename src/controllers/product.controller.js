@@ -4,8 +4,13 @@ const { productService } = require("../services/product.service")
 // [GET] /product    -  /home [FE]
 const home = async (req, res) => {
     try {
-        const discountProducts = await productService.getDiscountProduct();
-        const newProducts = await productService.getNewProduct();
+        let discountProducts = await productService.getDiscountProduct();
+        let newProducts = await productService.getNewProduct();
+
+        // caculate new price
+        discountProducts = filterHelper.calculateNewPrice(discountProducts);
+        newProducts = filterHelper.calculateNewPrice(newProducts);
+
         const data = {
             discountProducts, newProducts
         }
@@ -15,10 +20,10 @@ const home = async (req, res) => {
     }    
 }
 
-// [GET] /product/detail     - /home/itemDetail [FE]
+// [GET] /product/detail/:productId     - /home/itemDetail [FE]
 const detail = async (req, res) => {
     try {
-        const {productId} = req.body;
+        const {productId} = req.params;
         if(productId){
             const item = await productService.getOneProduct(productId);
             // check item empty
@@ -26,7 +31,10 @@ const detail = async (req, res) => {
                 return messageHelper.code404(res);
             }
             const itemMergedImage = filterHelper.mergeImageDetailItem(item);
-            const additionalProducts = await productService.getRandonProducts();
+            let additionalProducts = await productService.getRandonProducts();
+
+            // caculate new price
+            additionalProducts = filterHelper.calculateNewPrice(additionalProducts);
             const data = {
                 item : itemMergedImage, additionalProducts
             }
