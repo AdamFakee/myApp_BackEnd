@@ -1,3 +1,4 @@
+const { filterHelper } = require("../helpers/filter.helper");
 const { messageHelper } = require("../helpers/message.helper");
 const { bagService } = require("../services/bag.service");
 
@@ -22,7 +23,8 @@ const detail = async (req, res) => {
     const {accountName} = res.customer;
     try {
         const items = await bagService.getAll(accountName);
-        return items.length > 0 ? messageHelper.code200(res, items) : messageHelper.code204(res);
+        const itemFilltered = filterHelper.calculateNewPrice(items);
+        return items.length > 0 ? messageHelper.code200(res, itemFilltered) : messageHelper.code204(res);
     } catch (error) {
         return messageHelper.code400(res, {}, error.message);
     }

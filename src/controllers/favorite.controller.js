@@ -4,13 +4,13 @@ const { favoriteService } = require("../services/favorite.service");
 // [POST] /favorite/create    - add item to favorite [FE]
 const create = async (req, res) => {
     const {accountName} = res.customer;
-    const {productId, sizeName} = req.body;
+    const {productId} = req.body;
     // validate
-    if(!productId || !sizeName) {
+    if(!productId) {
         return messageHelper.code400(res);
     }
     try {
-        await favoriteService.addItemToBag({accountName, productId, sizeName});
+        await favoriteService.addItemToBag({accountName, productId});
         return messageHelper.code200(res);
     } catch (error) {
         return messageHelper.code400(res, {}, error.message);
@@ -31,13 +31,13 @@ const detail = async (req, res) => {
 // [DELETE] /favorite/deleteItem  - delete one item in favorite [FE]
 const deleteItem = async (req, res) => {
     const {accountName} = res.customer;
-    const {productId, sizeName} = req.body;
+    const {productId} = req.body;
     // validate
-    if(!productId || !sizeName) {
+    if(!productId) {
         return messageHelper.code400(res);
     }
     try {
-        await favoriteService.deleteItem({accountName, productId, sizeName});
+        await favoriteService.deleteItem({accountName, productId});
         return messageHelper.code200(res);
     } catch (error) {
         return messageHelper.code400(res, {}, error.message);

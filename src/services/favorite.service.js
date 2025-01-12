@@ -10,23 +10,26 @@ const addItemToBag = async (data) => {
 const getAll = async (accountName) => {
     const query = `
         select distinct 
-            product.productId, product.productName, product.discount, product.categoryname, product.price, product.imageMain, product.shopName, favorite.sizeName, product.amount
+            product.productId, round((product.price * product.discount), 2) as newPrice, product.productName, product.discount, product.shopName, product.price, product.imageMain, product.amount, count(ratingId) as starCount, IFNULL(AVG(rating.star), 1) AS starAverage, product.categoryName 
         from 
-            product
-        join favorite on favorite.productId = product.productId
+            favorite
+            join product on product.productId = favorite.productId
+        left join 
+            rating on rating.productId = product.productId
+
         where favorite.accountName = '${accountName}'
+        GROUP BY product.productId
     `;
     return await rawQueryFrameHelper(query);
 }
 
 // delete one item
 const deleteItem = async (data) => {
-    const {productId, accountName, sizeName} = data;
+    const {productId, accountName} = data;
     return await favoriteModel.destroy({
         where : {
             accountName : accountName,
             productId : productId,
-            sizeName : sizeName
         }
     })
 }
