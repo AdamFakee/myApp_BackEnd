@@ -5,6 +5,7 @@ const { customerRoute } = require("./customer.route");
 const { favoriteRoute } = require("./favorite.route");
 const { orderRoute } = require("./order.route");
 const { productRoute } = require("./product.route");
+const { ratingRoute } = require("./rating.route");
 
 module.exports.indexRoute = (app) => {
     app.use('/product', productRoute);
@@ -12,5 +13,6 @@ module.exports.indexRoute = (app) => {
     app.use('/order', orderRoute);
     app.use('/category', categoryRoute)
     app.use('/bag', decodeHeaderMiddleware.decodeHeader, bagRoute);
-    app.use('/favorite', decodeHeaderMiddleware.decodeHeader, favoriteRoute)
+    app.use('/favorite', decodeHeaderMiddleware.decodeHeader, favoriteRoute);
+    app.use('/rating', ratingRoute);
 }

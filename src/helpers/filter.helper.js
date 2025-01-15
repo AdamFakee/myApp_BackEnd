@@ -34,6 +34,63 @@ const calculateNewPrice = (products) => {
         };
     });
 }
+
+// seperate object contain img and not
+const seperateObjectImage = (data) => {
+    const dataFilltered_not_contain_img = [];
+    const dataFilltered_contain_img = [];
+    const dataChart = {
+        1 : {
+            cnt : 0,
+            total : 0
+        },
+        2 :{
+            cnt : 0,
+            total : 0
+        },
+        3 : {
+            cnt : 0,
+            total : 0
+        },
+        4 : {
+            cnt : 0,
+            total : 0
+        },
+        5 : {
+            cnt : 0,
+            total : 0
+        }, 
+        'info' : {
+            cnt : 0,
+            total : 0,
+            avg : 0
+        }
+    }
+    data.forEach(item => {
+        const {star} = item;
+        if (dataChart[star]) {
+            dataChart[star].cnt += 1; 
+            dataChart[star].total += star; 
+
+            // update info
+            dataChart['info'].cnt += 1;
+            dataChart['info'].total += star;
+        }
+        if(item.imgArray) {
+            const imgs = item.imgArray.split(', ');
+            dataFilltered_contain_img.push({
+                ...item, imgArray : imgs
+            });
+        } else {
+            dataFilltered_not_contain_img.push(item);
+        }
+    })
+
+    // cnt avg
+    dataChart['info'].avg = (dataChart['info'].total / dataChart['info'].cnt).toFixed(2);
+
+    return {dataFilltered_contain_img, dataFilltered_not_contain_img, dataChart};
+}
 module.exports.filterHelper = {
-    removeFieldFromOneObject, mergeImageDetailItem, calculateNewPrice
+    removeFieldFromOneObject, mergeImageDetailItem, calculateNewPrice, seperateObjectImage
 }
