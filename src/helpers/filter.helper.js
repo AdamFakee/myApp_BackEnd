@@ -91,6 +91,20 @@ const seperateObjectImage = (data) => {
 
     return {dataFilltered_contain_img, dataFilltered_not_contain_img, dataChart};
 }
+
+// change array[object[string]] to array[string]
+const changeToArrayString = (data) => {
+    const result = [];
+    data.forEach(item => {
+        for(let key in item) {
+            const valueObj = item[key];
+            if(key) {
+                result.push(valueObj);
+            }
+        }
+    })
+    return result;
+}
 module.exports.filterHelper = {
-    removeFieldFromOneObject, mergeImageDetailItem, calculateNewPrice, seperateObjectImage
+    removeFieldFromOneObject, mergeImageDetailItem, calculateNewPrice, seperateObjectImage, changeToArrayString
 }

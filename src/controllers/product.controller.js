@@ -1,5 +1,6 @@
 const { filterHelper } = require("../helpers/filter.helper");
 const { messageHelper } = require("../helpers/message.helper");
+const { categoryService } = require("../services/category.service");
 const { productService } = require("../services/product.service")
 // [GET] /product    -  /home [FE]
 const home = async (req, res) => {
@@ -47,6 +48,49 @@ const detail = async (req, res) => {
     }
 }
 
+const  getAll = async (req, res) => {
+    try {
+        const products = await productService.getAllProduct();
+        const categories = await categoryService.getAll();
+        const categoryFiltered = filterHelper.changeToArrayString(categories);
+        if(products.length == 0 || categories.length == 0) {
+            return messageHelper.code404(res);
+        }
+
+        const data = {
+            products : products, 
+            categories : categoryFiltered
+        }
+
+        return messageHelper.code200(res, data);
+    } catch (error) {
+        return messageHelper.code400(res, {}, error.messsage);
+    }
+}
+
+// [Get] /product/:categoryName 
+const getProductByCategoryName = async (req, res) => {
+    const {categoryName} = req.params;
+    try {
+        let products = [];
+        // categoryName == all => get all product
+        if(categoryName == 'all') {
+            products = await productService.getAllProduct();
+        } else {
+            products = await productService.getProductByCategoryName(categoryName);
+        }
+        // check product
+        if(products.length == 0 ) {
+            return messageHelper.code404(res);
+        }
+        const data = {
+            products : products
+        }
+        return messageHelper.code200(res, data);
+    } catch (error) {
+        return messageHelper.code400(res)
+    }
+}
 module.exports.productController = {
-    home, detail
+    home, detail, getAll, getProductByCategoryName
 }

@@ -1,10 +1,14 @@
-const { Op } = require("sequelize");
+const { Op, where } = require("sequelize");
 const { productModel } = require("../models/product.model");
 const { rawQueryFrameHelper } = require("../helpers/rawQueryFrame.helper");
+const { sequelize } = require("../configs/database.config");
 
 // get all product
 const getAllProduct = async () => {
-    return await productModel.findAll();
+    return await productModel.findAll({
+        order : sequelize.random(),
+        limit: 10 
+    });
 }
 // get discount product
 const getDiscountProduct = async () => {
@@ -76,6 +80,50 @@ const getRandonProducts = async () => {
     `
     return await rawQueryFrameHelper(query);
 }
+
+// get product by category name
+const getProductByCategoryName = async (categoryName) => {
+    return await productModel.findAll({
+        where : {
+            categoryName : categoryName
+        },
+        limit : 10
+    });
+}
+
+// get product by filter
+const getProductByFilter = async (price={}, color=[], size=[], category=[], brand=[]) => {
+    const {minPrice, maxPrice} = price;
+    const priceCondition = 
+        price
+            ? `product.price between ${minPrice} and ${maxPrice}`
+            : `1=1`;
+    const colorCondition = color.length > 0 
+        ? `product_color.colorCode IN (${color.map(c => `'${c}'`).join(', ')})` 
+        : `1 = 1`; // Không có color thì điều kiện luôn đúng
+
+    const sizeCondition = size.length > 0 
+        ? `product_size.sizeName IN (${size.map(s => `'${s}'`).join(', ')})` 
+        : `1 = 1`; // Không có size thì điều kiện luôn đúng
+
+    const categoryCondition = category.length > 0 
+        ? `product.categoryName IN (${category.map(cat => `'${cat}'`).join(', ')})` 
+        : `1 = 1`; // Không có category thì điều kiện luôn đúng
+    const query = `
+        select 
+            product.productId, product.productName, product.discount, product.categoryName, product.price, product.imageMain, product.detail, product.shopName, product.amount
+        from 
+            product 
+        join 
+            product_size on product.productId = product_size.productId
+        join 
+            product_color on product.productId = product_color.productId
+        where 
+            ${sizeCondition} and ${colorCondition} and ${priceCondition} and ${categoryCondition}
+        group by product.productId;
+    `
+    return await rawQueryFrameHelper(query);
+}
 module.exports.productService = {
-    getAllProduct, getDiscountProduct, getNewProduct, getOneProduct, getRandonProducts
+    getAllProduct, getDiscountProduct, getNewProduct, getOneProduct, getRandonProducts, getProductByCategoryName, getProductByFilter
 }
