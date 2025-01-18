@@ -2,16 +2,16 @@ const {sequelize} = require('../configs/database.config')
 const {DataTypes } = require('sequelize');
 
 const sliderRatingSchema = sequelize.define('slider_rating', {
-    productId : {
+    ratingId : {
         type : DataTypes.INTEGER,
         allowNull : false,
         references : {
-            model : 'product',
-            key : 'productId'
+            model : 'rating',
+            key : 'ratingId'
         }
     },
     image : {
-        type : DataTypes.STRING(255), 
+        type : DataTypes.TEXT, 
         allowNull : false,
     }
 }, { 

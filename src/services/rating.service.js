@@ -1,9 +1,10 @@
 const { rawQueryFrameHelper } = require("../helpers/rawQueryFrame.helper");
+const { ratingModel } = require("../models/rating.model");
 
-// add one item to package
-// const addItemToBag = async (data) => {
-//     return await bagModel.create(data);
-// }
+// create row 
+const create = async (data) => {
+    return await ratingModel.create(data);
+}
 
 // get rating for a specific product
 const detailNoImage = async (productId) => {
@@ -21,5 +22,5 @@ const detailNoImage = async (productId) => {
 
 
 module.exports.ratingService = {
-    detailNoImage
+    detailNoImage, create
 }

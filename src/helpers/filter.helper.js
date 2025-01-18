@@ -76,11 +76,20 @@ const seperateObjectImage = (data) => {
             dataChart['info'].cnt += 1;
             dataChart['info'].total += star;
         }
+        // contain img
         if(item.imgArray) {
-            const imgs = item.imgArray.split(', ');
-            dataFilltered_contain_img.push({
-                ...item, imgArray : imgs
-            });
+            const imgArray = item.imgArray;
+            if(imgArray.startsWith('[') && imgArray.endsWith) {  // img save array that is converted by json
+                const imgs = item.imgArray;
+                dataFilltered_contain_img.push({
+                    ...item, imgArray : JSON.parse(imgs)
+                });
+            } else { 
+                const imgs = imgArray.split(', ');
+                dataFilltered_contain_img.push({
+                    ...item, imgArray : imgs
+                });
+            }
         } else {
             dataFilltered_not_contain_img.push(item);
         }

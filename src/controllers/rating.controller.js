@@ -1,8 +1,10 @@
 const { filterHelper } = require("../helpers/filter.helper");
 const { messageHelper } = require("../helpers/message.helper");
+const { uploadMedia } = require("../middlewares/uploadToCloud.middleware");
 const { ratingService } = require("../services/rating.service");
+const { silderRatingService } = require("../services/sliderRating.service");
 const multer = require('../configs/multer.config')();
-const uploadRating = multer.single('imgs');
+const uploadRating = multer.array('imgs', 6);
 // [GET] /rating/detail/:productId  -- [FE] rating
 const detail = async (req, res) => {
     const {productId} = req.params;
@@ -24,15 +26,40 @@ const detail = async (req, res) => {
 
 // [POSt] /rating/create  - [FE] write rating
 const create = async (req, res) => {
-    uploadRating(req, res, function(err) {
-        if(err) {
-            console.log(err)
-            return messageHelper.code500(res, {}, err.message);
+    // uploadRating(req, res, function(err) {
+    //     if(err) {
+    //         console.log(err)
+    //         return messageHelper.code500(res, {}, err.message);
+    //     }
+    //     uploadMedia(req)
+    //     return messageHelper.code200(res);
+    // });
+    const imgUrls = req.imgUrls;
+    const {productId, content, star} = req.body;
+    const {accountName} = res.customer;
+
+    if(!productId) {
+        return messageHelper.code404(res);
+    }
+
+    const ratingData = {
+        productId, accountName, detail : content, star
+    };
+
+    try {
+        const newRating = await ratingService.create(ratingData);
+        
+        if(imgUrls.length > 0) {
+            const sliderRatingData = {
+                image : JSON.stringify(imgUrls),
+                ratingId : newRating.ratingId,
+            }
+            await silderRatingService.create(sliderRatingData);
         }
-        console.log('body : ', req.body)
-        console.log('file : ', req.file);
-        return messageHelper.code200(res);
-    });
+        return messageHelper.code200(res, {imgArray : imgUrls});
+    } catch (error) {
+        return messageHelper.code400(res, {}, error.message);
+    }
 }
 
 module.exports.ratingController = {
